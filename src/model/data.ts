@@ -1,6 +1,8 @@
 interface DataHandler<T> {
     [id: string]: T;
 
+    "Timestamp": T,
+    "Nickname": T,
     "How would your friends describe your personality?": T;
     "Cats or dogs?": T;
     "What's your favourite type of drink?": T;

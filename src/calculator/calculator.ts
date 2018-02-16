@@ -33,78 +33,6 @@ class ComparisonCalculator extends BaseCalculator {
     }
 }
 
-class CatsOrDogsCalculator extends ComparisonCalculator {
-    constructor() {
-        super("Cats or dogs?");
-    }
-}
-
-class DrinkCalculator extends ComparisonCalculator {
-    constructor() {
-        super("What's your favourite type of drink?");
-    }
-}
-
-class RPGCalculator extends ComparisonCalculator {
-    constructor() {
-        super("Which RPG class would you want to be?")
-    }
-}
-
-class QualityCalculator extends ComparisonCalculator {
-    constructor() {
-        super("What's the most important quality that they should have?");
-    }
-}
-
-class FirstDateCalculator extends ComparisonCalculator {
-    constructor() {
-        super("What's your ideal first date?");
-    }
-}
-
-class SweetsCalculator extends ComparisonCalculator {
-    constructor() {
-        super("Sweets?");
-    }
-}
-
-class MediaPreferenceCalculator extends ComparisonCalculator {
-    constructor() {
-        super("Do you prefer watching anime, reading manga, or something else?");
-    }
-}
-
-class ViewingPreferenceCalculator extends ComparisonCalculator {
-    constructor() {
-        super("Do you prefer watching anime with others or on your own?");
-    }
-}
-
-class DereCalculator extends ComparisonCalculator {
-    constructor() {
-        super("What's your favourite dere?");
-    }
-}
-
-class LoveInterestCalculator extends ComparisonCalculator {
-    constructor() {
-        super("Who would you want as a love interest?");
-    }
-}
-
-class HighSchoolCalculator extends ComparisonCalculator {
-    constructor() {
-        super("What would you do after school as a high-schooler in Japan?");
-    }
-}
-
-class JapanCalculator extends ComparisonCalculator {
-    constructor() {
-        super("You're in Japan. What do you do first?");
-    }
-}
-
 // Simple range comparison
 class RangeCalculator extends BaseCalculator {
     private ranges: { [id: string]: number };
@@ -151,18 +79,6 @@ class IntersectCalculator extends BaseCalculator {
     }
 }
 
-class MusicalCalculator extends IntersectCalculator {
-    constructor() {
-        super("What is your musical preference?");
-    }
-}
-
-class GenreCalculator extends IntersectCalculator {
-    constructor() {
-        super("Favourite genres");
-    }
-}
-
 class PersonalityCalculator extends BaseCalculator {
     constructor(weight?: number) {
         super(weight);
@@ -172,26 +88,42 @@ class PersonalityCalculator extends BaseCalculator {
         const me = a["What are your preferred personality traits in your partner?"].split(`,`).map((s) => s.trim().toLowerCase());
         const other = b["How would your friends describe your personality?"].split(`,`).map((s) => s.trim().toLowerCase());
 
+        if (a.Nickname == b.Nickname) {
+            return me.length;
+        }
+
         return other.map((elem) => +me.includes(elem)).reduce((a, b) => a + b, 0);
     }
 }
 
-export const handler: DataHandler<Calculator> = {
-    "How would your friends describe your personality?": new PersonalityCalculator(),
-    "Cats or dogs?": new CatsOrDogsCalculator(),
-    "What's your favourite type of drink?": new DrinkCalculator(),
-    "Which RPG class would you want to be?": new RPGCalculator(),
-    "What is your musical preference?": new MusicalCalculator(),
-    "What's the most important quality that they should have?": new QualityCalculator(),
-    "What's your ideal first date?": new FirstDateCalculator(),
-    "What are your preferred personality traits in your partner?": new PersonalityCalculator(),
-    "Sweets?": new SweetsCalculator(),
-    "Favourite genres": new GenreCalculator(),
-    "Do you prefer watching anime, reading manga, or something else?": new MediaPreferenceCalculator(),
-    "Do you prefer watching anime with others or on your own?": new ViewingPreferenceCalculator(),
-    "How much of your time do you spend watching anime?": new TimeCalculator(),
-    "What's your favourite dere?": new DereCalculator(),
-    "Who would you want as a love interest?": new LoveInterestCalculator(),
-    "What would you do after school as a high-schooler in Japan?": new HighSchoolCalculator(),
-    "You're in Japan. What do you do first?": new JapanCalculator()
+class NoCalculator extends BaseCalculator {
+    constructor(weight?: number) {
+        super(weight);
+    }
+
+    calculate(a: DataHandler<string>, b: DataHandler<string>) {
+        return 0;
+    }
 }
+
+export const handler: DataHandler<Calculator> = {
+    "Timestamp": new NoCalculator(),
+    "Nickname": new NoCalculator(),
+    "How would your friends describe your personality?": new PersonalityCalculator(),
+    "Cats or dogs?": new ComparisonCalculator("Cats or dogs?"),
+    "What's your favourite type of drink?": new ComparisonCalculator("What's your favourite type of drink?"),
+    "Which RPG class would you want to be?": new ComparisonCalculator("Which RPG class would you want to be?"),
+    "What is your musical preference?": new IntersectCalculator("What is your musical preference?"),
+    "What's the most important quality that they should have?": new ComparisonCalculator("What's the most important quality that they should have?"),
+    "What's your ideal first date?": new ComparisonCalculator("What's your ideal first date?"),
+    "What are your preferred personality traits in your partner?": new PersonalityCalculator(),
+    "Sweets?": new ComparisonCalculator("Sweets?"),
+    "Favourite genres": new IntersectCalculator("Favourite genres"),
+    "Do you prefer watching anime, reading manga, or something else?": new ComparisonCalculator("Do you prefer watching anime, reading manga, or something else?"),
+    "Do you prefer watching anime with others or on your own?": new ComparisonCalculator("Do you prefer watching anime with others or on your own?"),
+    "How much of your time do you spend watching anime?": new TimeCalculator(),
+    "What's your favourite dere?": new ComparisonCalculator("What's your favourite dere?"),
+    "Who would you want as a love interest?": new ComparisonCalculator("Who would you want as a love interest?"),
+    "What would you do after school as a high-schooler in Japan?": new ComparisonCalculator("What would you do after school as a high-schooler in Japan?"),
+    "You're in Japan. What do you do first?": new ComparisonCalculator("You're in Japan. What do you do first?")
+};

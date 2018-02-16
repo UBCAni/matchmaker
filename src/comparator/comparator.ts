@@ -6,7 +6,7 @@ export class Comparator {
     }
 
     private static score(a: DataHandler<string>, b: DataHandler<string>): number {
-        return Object.keys(a).map((key) => handler[key] ? handler[key].result(a, b) : 0).reduce((a, b) => a + b, 0);
+        return Object.keys(a).map((key) => handler[key].result(a, b)).reduce((a, b) => a + b, 0);
     }
 
     private static total(a: DataHandler<string>): number {
