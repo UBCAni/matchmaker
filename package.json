@@ -18,7 +18,8 @@
     "typescript": "^2.7.1"
   },
   "dependencies": {
-    "csv-parse": "^2.0.3"
+    "csv-parse": "^2.0.3",
+    "json2csv": "^3.11.5"
   },
   "repository": {
     "type": "git",
